@@ -4,7 +4,7 @@ from movie_config import app
 
 db = SQLAlchemy(app)
 
-db.drop_all()
+#db.drop_all()
 
 
 class Person(db.Model):
@@ -25,6 +25,10 @@ class Movie(db.Model):
     duration = db.Column(db.SmallInteger)
     rating = db.Column(db.Float)
     information = db.Column(db.Text)
+
+    def __init__(self, **kwargs):
+        self.__dict__ = self
+        super().__init__(**kwargs)
 
 
 class Actor(db.Model):
@@ -68,7 +72,7 @@ class MovieGenre(db.Model):
 db.create_all()
 
 
-def add_person(name, surname, gender, dob):
+def insert_person(name, surname, gender, dob):
 
     new_person = Person(firstname=name, surname=surname, gender=gender, dob=dob)
     db.session.add(new_person)
@@ -76,7 +80,7 @@ def add_person(name, surname, gender, dob):
     return new_person
 
 
-def add_movie(movie_title, release_date, duration, rating, information):
+def insert_movie(movie_title, release_date, duration, rating, information):
 
     new_movie = Movie(movie_title=movie_title, release_date=release_date, duration=duration, rating=rating, information=information)
     db.session.add(new_movie)
@@ -85,44 +89,44 @@ def add_movie(movie_title, release_date, duration, rating, information):
     return new_movie
 
 
-def add_actor(name, surname, gender, dob):
+def insert_actor(name, surname, gender, dob):
 
-    new_person = add_person(name, surname, gender, dob)
+    new_person = insert_person(name, surname, gender, dob)
     new_actor = Actor(person_id=new_person.person_id)
     db.session.add(new_actor)
     db.session.commit()
 
 
-def add_director(name, surname, gender, dob):
+def insert_director(name, surname, gender, dob):
 
-    new_person = add_person(name, surname, gender, dob)
+    new_person = insert_person(name, surname, gender, dob)
     new_director = Director(person_id=new_person.person_id)
     db.session.add(new_director)
     db.session.commit()
 
 
-def add_movie_casting(movie_id, actor_id, casting_role):
+def insert_movie_casting(movie_id, actor_id, casting_role):
 
     new_m_casting = MovieCasting(movie_id, actor_id, casting_role)
     db.session.add(new_m_casting)
     db.session.commit()
 
 
-def add_movie_director(movie_id, director_id):
+def insert_movie_director(movie_id, director_id):
 
     new_m_director = MovieDirector(movie_id, director_id)
     db.session.add(new_m_director)
     db.session.commit()
 
 
-def add_genre(genre_name):
+def insert_genre(genre_name):
 
     new_genre = Genre(genre_name)
     db.session.add(new_genre)
     db.session.commit()
 
 
-def add_movie_genre(movie_id, genre_id):
+def insert_movie_genre(movie_id, genre_id):
 
     new_movie_genre = MovieGenre(movie_id, genre_id)
     db.session.add(new_movie_genre)
@@ -176,4 +180,21 @@ def update_genre(genre_id, genre_name):
     db.session.commit()
 
 
+
+def get_movie(movie_id):
+    return Movie.query.filter_by(movie_id=movie_id).first()
+
+
+def get_movies():
+    return Movie.query.all()
+
 #def delete_person(person_id):
+
+
+def delete_movie(movie_id):
+    movie = Movie.query.filter_by(movie_id=movie_id).first()
+    db.session.delete(movie)
+    db.session.commit()
+    return True
+
+
