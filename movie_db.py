@@ -26,10 +26,6 @@ class Movie(db.Model):
     rating = db.Column(db.Float)
     information = db.Column(db.Text)
 
-    def __init__(self, **kwargs):
-        self.__dict__ = self
-        super().__init__(**kwargs)
-
 
 class Actor(db.Model):
 
@@ -70,6 +66,7 @@ class MovieGenre(db.Model):
 
 
 db.create_all()
+
 
 
 def insert_person(name, surname, gender, dob):
