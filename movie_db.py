@@ -227,7 +227,7 @@ def get_movie(movie_id):
 
 
 def get_movies():
-    return Movie.query.all().order_by(Movie.purchase_price.desc())
+    return Movie.query.order_by(Movie.purchase_price.desc()).all()
 
 
 def get_movie_cast_db(movie_id):
