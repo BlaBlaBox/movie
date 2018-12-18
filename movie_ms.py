@@ -1,6 +1,6 @@
 from flask import jsonify, request, abort
 from flask_httpauth import HTTPBasicAuth
-from movie_db import insert_movie, insert_genre, update_movie, get_movie, get_movies, delete_movie
+from movie_db import insert_movie, insert_person, insert_movie_casting, insert_movie_director, insert_movie_genre, update_movie, get_movie, get_movies, delete_movie, get_movie_from_imdb
 from movie_config import app
 
 auth = HTTPBasicAuth()
@@ -41,9 +41,32 @@ def add_movie():
     information = request.json['information']
     '''
 
-    movie_from_json = request.get_json()
+    #movie_from_json = request.get_json()
+    movie_id = request.json("movie_id")
+    rent = request.json("rent")
+    purchase = request.json("purchase")
+    movie_details = get_movie_from_imdb(movie_id)
 
-    if insert_movie(**movie_from_json):
+    movie_det = movie_details["movie"]
+    genres = movie_details["genre"]
+    directors = movie_details["director"]
+    casts = movie_details["cast"]
+
+    for cas in casts:
+        insert_person(*cas)
+        insert_movie_casting(movie_id, cas[0])
+
+    for direc in directors:
+        insert_person(*direc)
+        insert_movie_director(movie_id, direc[0])
+
+    movie_det.append(rent)
+    movie_det.append(purchase)
+
+    for gen in genres:
+        insert_movie_genre(movie_id, gen)
+
+    if insert_movie(*movie_det):
         return jsonify({'result': 'Success'}), 200
 
     return abort(500)
@@ -125,7 +148,7 @@ def delete_movie_by_id():
 
 
 
-# Validate the admin signin
+# Validate the admin signin#####TODO##############
 @auth.verify_password
 def verify_password(username, password):
     # TODO: Change check if is admin in the database or not.
@@ -133,11 +156,6 @@ def verify_password(username, password):
 
 
 
-genres = ['Action', 'Adventure', 'Animation', 'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'Film, Noir', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Short', 'Sport', 'Superhero', 'Thriller', 'War', 'Western']
-
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
-    for genre in genres:
-        insert_genre(genre)
-
