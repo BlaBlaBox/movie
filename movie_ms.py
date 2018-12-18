@@ -113,7 +113,7 @@ def get_all_movies():
 
 # Get spesific movie
 @app.route('/movie/get/<int:movie_id>', methods=['GET'])
-@auth.login_required
+#@auth.login_required
 def get_movie_by_id(movie_id):
     movie = get_movie(movie_id)
     if movie:
@@ -123,15 +123,15 @@ def get_movie_by_id(movie_id):
 
 
 # Get spesific movie genre
-@app.route('/movie/get/<int:movie_genre>', methods=['GET'])
-@auth.login_required
-def movie_get_genre(movie_genre):
-    # TODO: Result of the database get action bu movie_genre
-    result = True
+#@app.route('/movie/get/<int:movie_genre>', methods=['GET'])
+#@auth.login_required
+#def movie_get_genre(movie_genre):
+#    # TODO: Result of the database get action bu movie_genre
+#    result = True
 
-    if result:
-        return jsonify({'result': 'Success', 'movie': movie_genre}), 200 # TODO: Send send spesific user.
-    return abort(500)
+#    if result:
+#        return jsonify({'result': 'Success', 'movie': movie_genre}), 200 # TODO: Send send spesific user.
+#    return abort(500)
 
 
 @app.route('/movie/get/<int:movie_id>/cast', methods=['GET'])
