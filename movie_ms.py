@@ -69,7 +69,7 @@ def add_movie():
     print(movie_det)
     print(*movie_det)
 
-    if insert_movie(movie_det) is not None:
+    if insert_movie(*movie_det) is not None:
         return jsonify({'result': 'Success'}), 200
 
     return abort(500)
