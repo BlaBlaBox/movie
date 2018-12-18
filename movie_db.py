@@ -162,7 +162,8 @@ def insert_movie(*args):
         db.session.commit()
         print(new_movie)
         return new_movie
-    except:
+    except Exception as e:
+        print("Err: %s", e)
         return None
 
 
