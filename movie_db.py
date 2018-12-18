@@ -160,9 +160,10 @@ def insert_movie(*args):
         new_movie = Movie(*args)
         db.session.add(new_movie)
         db.session.commit()
+        print(new_movie)
         return new_movie
     except:
-        return jsonify({'result': "Movie already exists in database"}), 501
+        return None
 
 
 def insert_movie_casting(movie_id, person_id):              #casting_role

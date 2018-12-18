@@ -66,7 +66,7 @@ def add_movie():
     for gen in genres:
         insert_movie_genre(movie_id, gen)
 
-    if insert_movie(*movie_det):
+    if insert_movie(*movie_det) is not None:
         return jsonify({'result': 'Success'}), 200
 
     return abort(500)
