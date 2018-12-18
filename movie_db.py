@@ -172,7 +172,7 @@ def insert_movie(m_id, title, rel_year, dur, rating, info, c_url, rent, purch):
 
 def insert_movie_casting(movie_id, person_id):              #casting_role
     try:
-        new_m_casting = MovieCasting(movie_id, person_id)       #casting_role
+        new_m_casting = MovieCasting(movie_id=movie_id, person_id=person_id)       #casting_role
         db.session.add(new_m_casting)
         db.session.commit()
     except IntegrityError:
@@ -181,7 +181,7 @@ def insert_movie_casting(movie_id, person_id):              #casting_role
 
 def insert_movie_director(movie_id, person_id):
     try:
-        new_m_director = MovieDirector(movie_id, person_id)
+        new_m_director = MovieDirector(movie_id=movie_id, person_id=person_id)
         db.session.add(new_m_director)
         db.session.commit()
     except IntegrityError:
@@ -190,7 +190,7 @@ def insert_movie_director(movie_id, person_id):
 
 def insert_movie_genre(movie_id, genre_id):
     try:
-        new_movie_genre = MovieGenre(movie_id, genre_id)
+        new_movie_genre = MovieGenre(movie_id=movie_id, genre_id=genre_id)
         db.session.add(new_movie_genre)
         db.session.commit()
     except IntegrityError:
