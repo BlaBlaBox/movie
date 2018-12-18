@@ -140,6 +140,7 @@ def parse_movie(mov):
 
 def get_movie_from_imdb(movie_id):
     result = ia.get_movie(movie_id)
+    print(parse_movie(result))
     return parse_movie(result)
 
 
