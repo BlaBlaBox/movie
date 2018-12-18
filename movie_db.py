@@ -1,6 +1,6 @@
 from datetime import datetime
 from imdb import IMDb
-from flask import jsonify
+from sqlalchemy.exc import IntegrityError
 from movie_config import db
 
 ia = IMDb()
@@ -71,7 +71,7 @@ def insert_genre(genre_name):
         new_genre = Genre(genre_name=genre_name)
         db.session.add(new_genre)
         db.session.commit()
-    except:
+    except IntegrityError:
         pass
 
 
@@ -151,7 +151,7 @@ def insert_person(person_id, name):
         new_person = Person(person_id=person_id, name=name)
         db.session.add(new_person)
         db.session.commit()
-    except:
+    except IntegrityError:
         pass
 
 
@@ -162,6 +162,8 @@ def insert_movie(m_id, title, rel_year, dur, rating, info, c_url, rent, purch):
         db.session.commit()
         print(new_movie)
         return new_movie
+    except IntegrityError:
+        pass
     except Exception as e:
         print("Err: %s", e)
         return None
@@ -172,7 +174,7 @@ def insert_movie_casting(movie_id, person_id):              #casting_role
         new_m_casting = MovieCasting(movie_id, person_id)       #casting_role
         db.session.add(new_m_casting)
         db.session.commit()
-    except:
+    except IntegrityError:
         pass
 
 
@@ -181,7 +183,7 @@ def insert_movie_director(movie_id, person_id):
         new_m_director = MovieDirector(movie_id, person_id)
         db.session.add(new_m_director)
         db.session.commit()
-    except:
+    except IntegrityError:
         pass
 
 
@@ -190,7 +192,7 @@ def insert_movie_genre(movie_id, genre_id):
         new_movie_genre = MovieGenre(movie_id, genre_id)
         db.session.add(new_movie_genre)
         db.session.commit()
-    except:
+    except IntegrityError:
         pass
 
 ########## UPDATE ###############TODO####
