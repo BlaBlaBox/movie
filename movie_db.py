@@ -59,6 +59,14 @@ class MovieGenre(db.Model):
 db.create_all()
 
 
+
+def jsonify_movie_model(obj):
+    return {'movie_id': obj.movie_id, 'movie_title': obj.movie_title, 'release_year': obj.release_year,
+    'added_at': obj.added_at, 'duration': obj.duration, 'rating': obj.rating, 'information': obj.information,
+    'cover_url': obj.cover_url, 'video_url': obj.video_url, 'rent_price': obj.rent_price, 'purchase_price': obj.purchase_price }
+
+
+
 GENRES = [  'Action', 'Adventure', 'Animation', 'Biography',
             'Comedy', 'Crime', 'Documentary', 'Drama', 'Family',
             'Fantasy', 'Film Noir', 'History', 'Horror', 'Music',

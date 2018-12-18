@@ -1,6 +1,6 @@
 from flask import jsonify, request, abort
 from flask_httpauth import HTTPBasicAuth
-from movie_db import insert_movie, insert_person, insert_movie_casting, insert_movie_director, insert_movie_genre, update_movie, get_movie, get_movies, get_movie_cast_db, delete_movie, get_movie_from_imdb
+from movie_db import insert_movie, insert_person, insert_movie_casting, insert_movie_director, insert_movie_genre, update_movie, get_movie, get_movies, get_movie_cast_db, delete_movie, get_movie_from_imdb, jsonify_movie_model
 from movie_config import app
 
 auth = HTTPBasicAuth()
@@ -104,9 +104,13 @@ def update_movie_by_id():
 def get_all_movies():
 
     all_movies = get_movies()
+    all_movies_json = []
 
-    if all_movies:
-        return jsonify({'result': 'Success', 'movies': all_movies}), 200
+    for mov in all_movies:
+        all_movies_json.append(jsonify_movie_model(mov))
+    
+    if all_movies_json:
+        return jsonify(result='Success', movies=all_movies_json), 200
     return abort(500)
 
 
@@ -117,7 +121,7 @@ def get_all_movies():
 def get_movie_by_id(movie_id):
     movie = get_movie(movie_id)
     if movie:
-        return jsonify({'result': 'Success', 'movie': movie}), 200 # TODO: Send send spesific user.
+        return jsonify(result='Success', movie=jsonify_movie_model(movie)), 200 # TODO: Send send spesific user.
     return abort(500)
 
 
