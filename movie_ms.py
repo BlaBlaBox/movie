@@ -43,6 +43,7 @@ def add_movie():
 
     #movie_from_json = request.get_json()
     movie_id = request.json["movie_id"]
+    video_url = request.json["video_url"]
     rent = request.json["rent"]
     purchase = request.json["purchase"]
     movie_details = get_movie_from_imdb(movie_id)
@@ -60,6 +61,7 @@ def add_movie():
         insert_person(direc[0], direc[1])
         insert_movie_director(movie_id, direc[0])
 
+    movie_det.append(video_url)
     movie_det.append(rent)
     movie_det.append(purchase)
 
