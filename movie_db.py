@@ -1,5 +1,6 @@
 from datetime import datetime
 from imdb import IMDb
+from flask import jsonify
 from movie_config import db
 
 ia = IMDb()
@@ -66,10 +67,12 @@ GENRES = [  'Action', 'Adventure', 'Animation', 'Biography',
 
 
 def insert_genre(genre_name):
-
-    new_genre = Genre(genre_name=genre_name)
-    db.session.add(new_genre)
-    db.session.commit()
+    try:
+        new_genre = Genre(genre_name=genre_name)
+        db.session.add(new_genre)
+        db.session.commit()
+    except:
+        pass
 
 
 def create_genres():
@@ -143,44 +146,51 @@ def get_movie_from_imdb(movie_id):
 
 
 def insert_person(person_id, name):
+    try:
+        new_person = Person(person_id=person_id, name=name)
+        db.session.add(new_person)
+        db.session.commit()
+    except:
+        pass
 
-    new_person = Person(person_id=person_id, name=name)
-    db.session.add(new_person)
-    db.session.commit()
-    return new_person
 
-
-def insert_movie(movie_id, movie_title, release_year, duration, rating, information, cover_url, rent_price, purchase_price):
-
-    new_movie = Movie(movie_id, movie_title, release_year, duration, rating, information, cover_url, rent_price, purchase_price)
-    db.session.add(new_movie)
-    db.session.commit()
-
-    return new_movie
+def insert_movie(*args):
+    try:
+        new_movie = Movie(*args)
+        db.session.add(new_movie)
+        db.session.commit()
+        return new_movie
+    except:
+        return jsonify({'result': "Movie already exists in database"}), 501
 
 
 def insert_movie_casting(movie_id, person_id):              #casting_role
-
-    new_m_casting = MovieCasting(movie_id, person_id)       #casting_role
-    db.session.add(new_m_casting)
-    db.session.commit()
+    try:
+        new_m_casting = MovieCasting(movie_id, person_id)       #casting_role
+        db.session.add(new_m_casting)
+        db.session.commit()
+    except:
+        pass
 
 
 def insert_movie_director(movie_id, person_id):
-
-    new_m_director = MovieDirector(movie_id, person_id)
-    db.session.add(new_m_director)
-    db.session.commit()
+    try:
+        new_m_director = MovieDirector(movie_id, person_id)
+        db.session.add(new_m_director)
+        db.session.commit()
+    except:
+        pass
 
 
 def insert_movie_genre(movie_id, genre_id):
+    try:
+        new_movie_genre = MovieGenre(movie_id, genre_id)
+        db.session.add(new_movie_genre)
+        db.session.commit()
+    except:
+        pass
 
-    new_movie_genre = MovieGenre(movie_id, genre_id)
-    db.session.add(new_movie_genre)
-    db.session.commit()
-
-
-########## UPDATE ###############
+########## UPDATE ###############TODO####
 
 
 def update_movie(movie_id, movie_title, release_date, duration, rating, information):
@@ -196,7 +206,7 @@ def update_movie(movie_id, movie_title, release_date, duration, rating, informat
 
     return movie_obj
 
-
+######ENDOF####TODO###########
 
 def get_movie(movie_id):
     return Movie.query.filter_by(movie_id=movie_id).first()
@@ -211,6 +221,3 @@ def delete_movie(movie_id):
     movie = Movie.query.filter_by(movie_id=movie_id).first()
     db.session.delete(movie)
     db.session.commit()
-    return True
-
-
