@@ -156,8 +156,9 @@ def insert_person(person_id, name):
 
 
 def insert_movie(m_id, title, rel_year, dur, rating, info, c_url, rent, purch):
+    rel = datetime.strptime(str(rel_year), "%Y")
     try:
-        new_movie = Movie(movie_id=int(m_id), movie_title=title, release_year=rel_year, duration=int(dur), rating=rating, information=info, cover_url=c_url, rent_price=float(rent), purchase_price=float(purch))
+        new_movie = Movie(movie_id=int(m_id), movie_title=title, release_year=rel, duration=int(dur), rating=rating, information=info, cover_url=c_url, rent_price=float(rent), purchase_price=float(purch))
         db.session.add(new_movie)
         db.session.commit()
         print(new_movie)
