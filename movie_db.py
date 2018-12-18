@@ -65,6 +65,9 @@ def jsonify_movie_model(obj):
     'added_at': obj.added_at, 'duration': obj.duration, 'rating': obj.rating, 'information': obj.information,
     'cover_url': obj.cover_url, 'video_url': obj.video_url, 'rent_price': obj.rent_price, 'purchase_price': obj.purchase_price }
 
+def jsonify_casting_persons(obj):
+    return {'person_id': obj.person_id, 'name': obj.name}
+
 
 
 GENRES = [  'Action', 'Adventure', 'Animation', 'Biography',
@@ -245,7 +248,7 @@ def get_movie_cast_db(movie_id):
     for it in movie_person_list:
         person_ids.append(it[1])
     for person in person_ids:
-        person_names.append(Person.query.filter_by(person_id=person).first())
+        person_names.append(jsonify_casting_persons(Person.query.filter_by(person_id=person).first()))
 
     return person_names
 
