@@ -1,9 +1,8 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from imdb import IMDb
-from movie_config import app
+from movie_config import app, db
 
-db = SQLAlchemy(app)
 ia = IMDb()
 
 #db.drop_all()
