@@ -157,7 +157,7 @@ def insert_person(person_id, name):
 
 def insert_movie(*args):
     try:
-        new_movie = Movie(*args)
+        new_movie = Movie(movie_id=int(args[0]), movie_title=args[1], release_year=args[2], duration=int(args[3]), rating=args[4], information=args[5], cover_url=args[6], rent_price=float(args[7]), purchase_price=float(args[8]))
         db.session.add(new_movie)
         db.session.commit()
         print(new_movie)
