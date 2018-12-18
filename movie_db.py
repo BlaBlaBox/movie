@@ -229,6 +229,17 @@ def get_movies():
     return Movie.query.all().order_by(Movie.purchase_price.desc())
 
 
+def get_movie_cast_db(movie_id):
+    movie_person_list = MovieCasting.query.filter_by(movie_id=movie_id).all()
+    person_ids = []
+    person_names = []
+    for it in movie_person_list:
+        person_ids.append(it[1])
+    for person in person_ids:
+        person_names.append(Person.query.filter_by(person_id=person).first())
+
+    return person_names
+
 
 def delete_movie(movie_id):
     movie = Movie.query.filter_by(movie_id=movie_id).first()
