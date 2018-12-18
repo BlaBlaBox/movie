@@ -42,9 +42,9 @@ def add_movie():
     '''
 
     #movie_from_json = request.get_json()
-    movie_id = request.json("movie_id")
-    rent = request.json("rent")
-    purchase = request.json("purchase")
+    movie_id = request.json["movie_id"]
+    rent = request.json["rent"]
+    purchase = request.json["purchase"]
     movie_details = get_movie_from_imdb(movie_id)
 
     movie_det = movie_details["movie"]
