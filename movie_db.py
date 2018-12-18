@@ -246,7 +246,7 @@ def get_movie_cast_db(movie_id):
     person_ids = []
     person_names = []
     for it in movie_person_list:
-        person_ids.append(it[1])
+        person_ids.append(it.person_id)
     for person in person_ids:
         person_names.append(jsonify_casting_persons(Person.query.filter_by(person_id=person).first()))
 
