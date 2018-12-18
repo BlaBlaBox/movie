@@ -72,7 +72,7 @@ def insert_genre(genre_name):
         db.session.add(new_genre)
         db.session.commit()
     except IntegrityError:
-        pass
+        db.session.rollback()
 
 
 def create_genres():
@@ -152,7 +152,7 @@ def insert_person(person_id, name):
         db.session.add(new_person)
         db.session.commit()
     except IntegrityError:
-        pass
+        db.session.rollback()
 
 
 def insert_movie(m_id, title, rel_year, dur, rating, info, c_url, rent, purch):
@@ -163,8 +163,9 @@ def insert_movie(m_id, title, rel_year, dur, rating, info, c_url, rent, purch):
         print(new_movie)
         return new_movie
     except IntegrityError:
-        pass
+        db.session.rollback()
     except Exception as e:
+        db.session.rollback()
         print("Err: %s", e)
         return None
 
@@ -175,7 +176,7 @@ def insert_movie_casting(movie_id, person_id):              #casting_role
         db.session.add(new_m_casting)
         db.session.commit()
     except IntegrityError:
-        pass
+        db.session.rollback()
 
 
 def insert_movie_director(movie_id, person_id):
@@ -184,7 +185,7 @@ def insert_movie_director(movie_id, person_id):
         db.session.add(new_m_director)
         db.session.commit()
     except IntegrityError:
-        pass
+        db.session.rollback()
 
 
 def insert_movie_genre(movie_id, genre_id):
@@ -193,7 +194,7 @@ def insert_movie_genre(movie_id, genre_id):
         db.session.add(new_movie_genre)
         db.session.commit()
     except IntegrityError:
-        pass
+        db.session.rollback()
 
 ########## UPDATE ###############TODO####
 
