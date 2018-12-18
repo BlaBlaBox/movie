@@ -1,4 +1,5 @@
 Flask>=1.0
+Flask-SQLAlchemy>=2.3.2
 psycopg2-binary>=2.7
 gunicorn>=19.9
 IMDbPY>=6.6
