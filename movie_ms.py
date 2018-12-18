@@ -53,6 +53,13 @@ def add_movie():
     directors = movie_details["director"]
     casts = movie_details["cast"]
 
+    movie_det.append(video_url)
+    movie_det.append(rent)
+    movie_det.append(purchase)
+
+    if insert_movie(*movie_det) is None:
+        abort(500)
+
     for cas in casts:
         insert_person(cas[0], cas[1])
         insert_movie_casting(movie_id, cas[0])
@@ -61,20 +68,10 @@ def add_movie():
         insert_person(direc[0], direc[1])
         insert_movie_director(movie_id, direc[0])
 
-    movie_det.append(video_url)
-    movie_det.append(rent)
-    movie_det.append(purchase)
-
     for gen in genres:
         insert_movie_genre(movie_id, gen)
     
-    print(movie_det)
-    print(*movie_det)
-
-    if insert_movie(*movie_det) is not None:
-        return jsonify({'result': 'Success'}), 200
-
-    return abort(500)
+    return jsonify({'result': 'Success'}), 200
 
 
 
