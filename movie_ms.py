@@ -120,6 +120,7 @@ def get_all_movies():
 #@auth.login_required
 def get_movie_by_id(movie_id):
     movie = get_movie(movie_id)
+    print(movie)
     if movie:
         return jsonify(result='Success', movie=jsonify_movie_model(movie)), 200 # TODO: Send send spesific user.
     return abort(500)
