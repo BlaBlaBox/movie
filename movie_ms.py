@@ -33,13 +33,6 @@ def internal_server_error():
 def add_movie():
     if not request.json:
         return abort(400)
-    '''
-    movie_title = request.json['movie_title']
-    release_date = request.json['release_date']
-    duration = request.json['duration']
-    rating = request.json['rating']
-    information = request.json['information']
-    '''
 
     #movie_from_json = request.get_json()
     movie_id = request.json["movie_id"]
@@ -70,7 +63,7 @@ def add_movie():
 
     for gen in genres:
         insert_movie_genre(movie_id, gen)
-    
+
     return jsonify({'result': 'Success'}), 200
 
 
@@ -81,14 +74,7 @@ def add_movie():
 def update_movie_by_id():
     if not request.json:
         return abort(400)
-    '''
-    movie_id = request.json['movie_id']
-    movie_title = request.json['movie_title']
-    release_date = request.json['release_date']
-    duration = request.json['duration']
-    rating = request.json['rating']
-    information = request.json['information']
-    '''
+
     movie_from_json = request.get_json()
 
     if update_movie(**movie_from_json):
@@ -108,7 +94,7 @@ def get_all_movies():
 
     for mov in all_movies:
         all_movies_json.append(jsonify_movie_model(mov))
-    
+
     if all_movies_json:
         return jsonify(result='Success', movies=all_movies_json), 200
     return abort(500)

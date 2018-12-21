@@ -62,19 +62,19 @@ db.create_all()
 
 def jsonify_movie_model(obj):
     return {'movie_id': obj.movie_id, 'movie_title': obj.movie_title, 'release_year': obj.release_year,
-    'added_at': obj.added_at, 'duration': obj.duration, 'rating': obj.rating, 'information': obj.information,
-    'cover_url': obj.cover_url, 'video_url': obj.video_url, 'rent_price': obj.rent_price, 'purchase_price': obj.purchase_price }
+            'added_at': obj.added_at, 'duration': obj.duration, 'rating': obj.rating, 'information': obj.information,
+            'cover_url': obj.cover_url, 'video_url': obj.video_url, 'rent_price': obj.rent_price, 'purchase_price': obj.purchase_price}
 
 def jsonify_casting_persons(obj):
     return {'person_id': obj.person_id, 'name': obj.name}
 
 
 
-GENRES = [  'Action', 'Adventure', 'Animation', 'Biography',
-            'Comedy', 'Crime', 'Documentary', 'Drama', 'Family',
-            'Fantasy', 'Film Noir', 'History', 'Horror', 'Music',
-            'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Short',
-            'Sport', 'Superhero', 'Thriller', 'War', 'Western'    ]
+GENRES = ['Action', 'Adventure', 'Animation', 'Biography',
+          'Comedy', 'Crime', 'Documentary', 'Drama', 'Family',
+          'Fantasy', 'Film Noir', 'History', 'Horror', 'Music',
+          'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Short',
+          'Sport', 'Superhero', 'Thriller', 'War', 'Western']
 
 
 
@@ -83,8 +83,8 @@ def insert_genre(genre_name):
         new_genre = Genre(genre_name=genre_name)
         db.session.add(new_genre)
         db.session.commit()
-    except IntegrityError as e:
-        print("Err: ", e)
+    except IntegrityError as err:
+        print("Err: ", err)
         db.session.rollback()
 
 
@@ -164,8 +164,8 @@ def insert_person(person_id, name):
         new_person = Person(person_id=person_id, name=name)
         db.session.add(new_person)
         db.session.commit()
-    except IntegrityError as e:
-        print("Err: ", e)
+    except IntegrityError as err:
+        print("Err: ", err)
         db.session.rollback()
 
 
@@ -177,12 +177,12 @@ def insert_movie(m_id, title, rel_year, dur, rating, info, c_url, v_url, rent, p
         db.session.commit()
         print(new_movie)
         return new_movie
-    except IntegrityError as e:
-        print("Err: ", e)
+    except IntegrityError as err:
+        print("Err: ", err)
         db.session.rollback()
-    except Exception as e:
+    except Exception as err:
         db.session.rollback()
-        print("Err: ", e)
+        print("Err: ", err)
         return None
 
 
@@ -191,8 +191,8 @@ def insert_movie_casting(movie_id, person_id):              #casting_role
         new_m_casting = MovieCasting(movie_id=movie_id, person_id=person_id)       #casting_role
         db.session.add(new_m_casting)
         db.session.commit()
-    except IntegrityError as e:
-        print("Err: ", e)
+    except IntegrityError as err:
+        print("Err: ", err)
         db.session.rollback()
 
 
@@ -201,8 +201,8 @@ def insert_movie_director(movie_id, person_id):
         new_m_director = MovieDirector(movie_id=movie_id, person_id=person_id)
         db.session.add(new_m_director)
         db.session.commit()
-    except IntegrityError as e:
-        print("Err: ", e)
+    except IntegrityError as err:
+        print("Err: ", err)
         db.session.rollback()
 
 
@@ -211,8 +211,8 @@ def insert_movie_genre(movie_id, genre_id):
         new_movie_genre = MovieGenre(movie_id=movie_id, genre_id=genre_id)
         db.session.add(new_movie_genre)
         db.session.commit()
-    except IntegrityError as e:
-        print("Err: ", e)
+    except IntegrityError as err:
+        print("Err: ", err)
         db.session.rollback()
 
 ########## UPDATE ###############TODO####
@@ -245,8 +245,8 @@ def get_movie_cast_db(movie_id):
     movie_person_list = MovieCasting.query.filter_by(movie_id=movie_id).all()
     person_ids = []
     person_names = []
-    for it in movie_person_list:
-        person_ids.append(it.person_id)
+    for person_it in movie_person_list:
+        person_ids.append(person_it.person_id)
     for person in person_ids:
         person_names.append(jsonify_casting_persons(Person.query.filter_by(person_id=person).first()))
 
