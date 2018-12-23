@@ -254,6 +254,17 @@ def get_movie_cast_db(movie_id):
 
 
 def delete_movie(movie_id):
+
+    movie_genre_list = MovieGenre.query.filter_by(movie_id=movie_id).all()
+    for mov_gen in movie_genre_list:
+        db.session.delete(mov_gen)
+    movie_cast_list = MovieCasting.query.filter_by(movie_id=movie_id).all()
+    for mov_cast in movie_cast_list:
+        db.session.delete(mov_cast)
+    movie_director_list = MovieDirector.query.filter_by(movie_id=movie_id).all()
+    for mov_dir in movie_director_list:
+        db.session.delete(mov_dir)
+
     movie = Movie.query.filter_by(movie_id=movie_id).first()
     db.session.delete(movie)
     db.session.commit()
