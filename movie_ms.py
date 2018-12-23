@@ -97,7 +97,7 @@ def get_all_movies():
 
     if all_movies_json:
         return jsonify(result='Success', movies=all_movies_json), 200
-    return abort(500)
+    return jsonify(result='No film exists', movies=None), 204
 
 
 
