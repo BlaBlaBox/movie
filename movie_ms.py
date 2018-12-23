@@ -139,7 +139,7 @@ def get_movie_cast(movie_id):
 
 # The delete action of movie
 @app.route('/movie/delete', methods=['POST'])
-@auth.login_required
+#@auth.login_required
 def delete_movie_by_id():
     if not request.json:
         return abort(400)
