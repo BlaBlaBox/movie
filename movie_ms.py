@@ -3,9 +3,6 @@ from movie_db import insert_movie, insert_person, insert_movie_casting, insert_m
 from movie_config import app
 
 
-@app.errorhandler(204)
-def no_content(err):
-    return jsonify({'error': 'No content'}), 204
 
 @app.errorhandler(400)
 def bad_request(err):
@@ -104,7 +101,7 @@ def get_movie_by_id(movie_id):
     movie = get_movie(movie_id)
     if movie:
         return jsonify(result='Success', movie=jsonify_movie_model(movie)), 200
-    return abort(204)
+    return jsonify({'error': 'No content'}), 204
 
 
 @app.route('/movie/get/<int:movie_id>/cast', methods=['GET'])
@@ -112,7 +109,9 @@ def get_movie_cast(movie_id):
 
     all_cast = get_movie_cast_db(movie_id)
 
-    if all_cast != 204:
+    if all_cast == 204:
+        return jsonify({'error': 'No content'}), 204
+    elif all_cast:
         return jsonify({'result': 'Success', 'cast': all_cast}), 200
     return abort(all_cast)
 
@@ -129,6 +128,8 @@ def delete_movie_by_id():
 
     if delete_stat_code == 200:
         return jsonify({'result': 'Success'}), 200
+    elif delete_stat_code == 204:
+        return jsonify({'error': 'No content'}), 204
     return abort(delete_stat_code)
 
 
