@@ -3,32 +3,36 @@ from movie_db import insert_movie, insert_person, insert_movie_casting, insert_m
 from movie_config import app
 
 
+@app.errorhandler(204)
+def no_content(err):
+    return jsonify({'error': 'No content'}), 204
+
 @app.errorhandler(400)
-def bad_request():
+def bad_request(err):
     return jsonify({'error': 'Your request doesn\'t contain JSON'}), 400
 
 @app.errorhandler(401)
-def unauthorized_access():
+def unauthorized_access(err):
     return jsonify({'error': 'Unauthorized access'}), 401
 
 @app.errorhandler(403)
-def forbidden():
+def forbidden(err):
     return jsonify({'error': 'Forbidden!'}), 403
 
 @app.errorhandler(404)
-def not_found():
+def not_found(err):
     return jsonify({'error': 'Not found'}), 404
 
 @app.errorhandler(409)
-def wrong_input():
+def wrong_input(err):
     return jsonify({'error': 'Data already exists'}), 409
 
 @app.errorhandler(422)
-def already_exists():
+def already_exists(err):
     return jsonify({'error': 'Prices cannot be zero or negative'}), 422
 
 @app.errorhandler(500)
-def internal_server_error():
+def internal_server_error(err):
     return jsonify({'error' : 'Internal server error'}), 500
 
 
@@ -98,10 +102,9 @@ def get_all_movies():
 @app.route('/movie/get/<int:movie_id>', methods=['GET'])
 def get_movie_by_id(movie_id):
     movie = get_movie(movie_id)
-    print(movie)
     if movie:
-        return jsonify(result='Success', movie=jsonify_movie_model(movie)), 200 # TODO: Send send spesific user.
-    return abort(500)
+        return jsonify(result='Success', movie=jsonify_movie_model(movie)), 200
+    return abort(204)
 
 
 @app.route('/movie/get/<int:movie_id>/cast', methods=['GET'])
@@ -109,9 +112,9 @@ def get_movie_cast(movie_id):
 
     all_cast = get_movie_cast_db(movie_id)
 
-    if all_cast:
+    if all_cast != 204:
         return jsonify({'result': 'Success', 'cast': all_cast}), 200
-    return abort(500)
+    return abort(all_cast)
 
 
 # The delete action of movie
@@ -122,9 +125,11 @@ def delete_movie_by_id():
 
     movie_id = request.json['movie_id']
 
-    if delete_movie(movie_id):
-        return jsonify({'result': 'Success'}), 200 # Password matches
-    return abort(500)
+    delete_stat_code = delete_movie(movie_id)
+
+    if delete_stat_code == 200:
+        return jsonify({'result': 'Success'}), 200
+    return abort(delete_stat_code)
 
 
 

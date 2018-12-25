@@ -247,6 +247,8 @@ def get_movies():
 
 def get_movie_cast_db(movie_id):
     movie_person_list = MovieCasting.query.filter_by(movie_id=movie_id).all()
+    if not movie_person_list:
+        return 204
     person_ids = []
     person_names = []
     for person_it in movie_person_list:
@@ -259,6 +261,10 @@ def get_movie_cast_db(movie_id):
 
 def delete_movie(movie_id):
 
+    movie = Movie.query.filter_by(movie_id=movie_id).first()
+    if movie is None:
+        return 204
+
     movie_genre_list = MovieGenre.query.filter_by(movie_id=movie_id).all()
     for mov_gen in movie_genre_list:
         db.session.delete(mov_gen)
@@ -269,6 +275,6 @@ def delete_movie(movie_id):
     for mov_dir in movie_director_list:
         db.session.delete(mov_dir)
 
-    movie = Movie.query.filter_by(movie_id=movie_id).first()
     db.session.delete(movie)
     db.session.commit()
+    return 200
