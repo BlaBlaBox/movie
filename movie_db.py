@@ -123,7 +123,10 @@ def parse_person(per):
 
 def parse_movie(mov):
 
-    temp_dur = mov["runtimes"][0]
+    try:
+        temp_dur = mov["runtimes"][0]
+    except KeyError:
+        return 404
     if ':' in temp_dur:
         temp_dur = (temp_dur.split(":"))[1]
 
@@ -154,7 +157,7 @@ def parse_movie(mov):
 def get_movie_from_imdb(movie_id):
     try:
         result = ia.get_movie(movie_id)
-    except Exception as err:
+    except BaseException as err:
         print("Err: ", err)
         return 404
     return parse_movie(result)
