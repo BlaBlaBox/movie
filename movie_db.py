@@ -152,8 +152,11 @@ def parse_movie(mov):
 
 
 def get_movie_from_imdb(movie_id):
-    result = ia.get_movie(movie_id)
-    print(parse_movie(result))
+    try:
+        result = ia.get_movie(movie_id)
+    except Exception as err:
+        print("Err: ", err)
+        return 404
     return parse_movie(result)
 
 
@@ -176,14 +179,15 @@ def insert_movie(m_id, title, rel_year, dur, rating, info, c_url, v_url, rent, p
         db.session.add(new_movie)
         db.session.commit()
         print(new_movie)
-        return new_movie
+        return 200
     except IntegrityError as err:
         print("Err: ", err)
         db.session.rollback()
+        return 409
     except Exception as err:
         db.session.rollback()
         print("Err: ", err)
-        return None
+        return 500
 
 
 def insert_movie_casting(movie_id, person_id):              #casting_role

@@ -19,6 +19,14 @@ def forbidden():
 def not_found():
     return jsonify({'error': 'Not found'}), 404
 
+@app.errorhandler(409)
+def wrong_input():
+    return jsonify({'error': 'Data already exists'}), 409
+
+@app.errorhandler(422)
+def already_exists():
+    return jsonify({'error': 'Prices cannot be zero or negative'}), 422
+
 @app.errorhandler(500)
 def internal_server_error():
     return jsonify({'error' : 'Internal server error'}), 500
@@ -35,7 +43,13 @@ def add_movie():
     video_url = request.json["video_url"]
     rent = request.json["rent"]
     purchase = request.json["purchase"]
+
+    if rent <= 0 or purchase <= 0:
+        abort(422)
+
     movie_details = get_movie_from_imdb(movie_id)
+    if movie_details == 404:
+        abort(404)
 
     movie_det = movie_details["movie"]
     genres = movie_details["genre"]
@@ -45,9 +59,10 @@ def add_movie():
     movie_det.append(video_url)
     movie_det.append(rent)
     movie_det.append(purchase)
+    mov_res = insert_movie(*movie_det)
 
-    if insert_movie(*movie_det) is None:
-        abort(500)
+    if mov_res != 200:
+        abort(mov_res)
 
     for cas in casts:
         insert_person(cas[0], cas[1])
@@ -61,6 +76,7 @@ def add_movie():
         insert_movie_genre(movie_id, gen)
 
     return jsonify({'result': 'Success'}), 200
+
 
 
 # The delete action of movie
