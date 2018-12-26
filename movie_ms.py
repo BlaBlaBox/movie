@@ -1,7 +1,7 @@
 from flask import jsonify, request, abort
 from movie_db import insert_movie, insert_person, insert_movie_casting, insert_movie_director, insert_movie_genre, get_movie, get_movies, get_movie_cast_db, delete_movie, get_movie_from_imdb, jsonify_movie_model
 from movie_config import app
-from coverage import Coverage
+from coverage import Coverage, CoverageException
 
 
 @app.errorhandler(400)
@@ -141,4 +141,7 @@ if __name__ == '__main__':
 
 cov.stop()
 cov.save()
-cov.html_report()
+try:
+    cov.html_report()
+except CoverageException as err:
+    print("Error ", err)
