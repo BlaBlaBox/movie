@@ -277,6 +277,8 @@ def delete_movie(movie_id):
     movie_director_list = MovieDirector.query.filter_by(movie_id=movie_id).all()
     for mov_dir in movie_director_list:
         db.session.delete(mov_dir)
+    
+    db.session.commit()
 
     db.session.delete(movie)
     db.session.commit()
