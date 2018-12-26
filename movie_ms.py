@@ -134,14 +134,19 @@ def delete_movie_by_id():
     return abort(delete_stat_code)
 
 
+@app.route('/endtest')
+def end_test():
+    cov.stop()
+    cov.save()
+    try:
+        cov.html_report()
+        return jsonify({'result': 'Coverage report has been saved'}), 200
+    except CoverageException as err:
+        print("Error ", err)
+        return jsonify({'result': 'Error on coverage'}), 400
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
-
-
-cov.stop()
-cov.save()
-try:
-    cov.html_report()
-except CoverageException as err:
-    print("Error ", err)

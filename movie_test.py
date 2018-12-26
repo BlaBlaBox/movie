@@ -81,6 +81,14 @@ def delete_movie(movie_id, status, json_control=True):
 
 #================= END OF DELETE MOVIE BY ID ===============
 
+#================= END TEST ================================
+
+def send_end_test(status=200):
+    resp = requests.get(MOVIE + "endtest")
+    assert resp.status_code == status
+
+#================= END OF END TEST =========================
+
 ############################################################
 
 #================= MAIN TEST ===============================
@@ -108,3 +116,5 @@ def test_add_movie():
     delete_movie(1375666, 200)          # Delete movie when it's exists
 
     delete_movie(1375666, 400, False)   # Send an invalid JSON
+    
+    send_end_test(200)                  # Send a request to complete coverage report
