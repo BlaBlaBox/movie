@@ -1,7 +1,7 @@
 from flask import jsonify, request, abort
 from movie_db import insert_movie, insert_person, insert_movie_casting, insert_movie_director, insert_movie_genre, get_movie, get_movies, get_movie_cast_db, delete_movie, get_movie_from_imdb, jsonify_movie_model
 from movie_config import app
-
+from coverage import Coverage
 
 
 @app.errorhandler(400)
@@ -32,7 +32,8 @@ def already_exists(err):
 def internal_server_error(err):
     return jsonify({'error' : 'Internal server error'}), 500
 
-
+cov = Coverage()
+cov.start()
 
 # The create action of movie
 @app.route('/movie/add', methods=['POST'])
@@ -136,3 +137,8 @@ def delete_movie_by_id():
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
+
+
+cov.stop()
+cov.save()
+cov.html_report()

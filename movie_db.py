@@ -115,9 +115,9 @@ def parse_person(per):
 
     person_id = ia.get_imdbID(per)
     name = per["name"]
-#    result = [person_id, name]     # extra_arg = is_cast=True
-#    if is_cast:
-#        result.append(parse_extra_cast(per))
+    #    result = [person_id, name]     # extra_arg = is_cast=True
+    #    if is_cast:
+    #        result.append(parse_extra_cast(per))
     return [person_id, name]
 
 

@@ -108,6 +108,3 @@ def test_add_movie():
     delete_movie(1375666, 200)          # Delete movie when it's exists
 
     delete_movie(1375666, 400, False)   # Send an invalid JSON
-
-
-
