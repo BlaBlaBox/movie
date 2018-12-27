@@ -6,7 +6,8 @@
 import requests
 
 
-MOVIE = "http://blablabox-movie.herokuapp.com/"
+#MOVIE = "http://blablabox-movie.herokuapp.com/"
+MOVIE = "http://127.0.0.1:8000/"
 
 #================= ADD NEW MOVIE ===========================
 

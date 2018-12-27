@@ -1,39 +1,39 @@
-from flask import jsonify, request, abort
-from movie_db import insert_movie, insert_person, insert_movie_casting, insert_movie_director, insert_movie_genre, get_movie, get_movies, get_movie_cast_db, delete_movie, get_movie_from_imdb, jsonify_movie_model
-from movie_config import app
-from coverage import Coverage, CoverageException
+from flask import jsonify, request, abort                                                                                                                                                                               #pragma: no cover
+from movie_db import insert_movie, insert_person, insert_movie_casting, insert_movie_director, insert_movie_genre, get_movie, get_movies, get_movie_cast_db, delete_movie, get_movie_from_imdb, jsonify_movie_model     #pragma: no cover
+from movie_config import app                                                                                                                                                                                            #pragma: no cover
+from coverage import Coverage, CoverageException                                                                                                                                                                        #pragma: no cover
 
 
-@app.errorhandler(400)
+@app.errorhandler(400)                                                                                                                                                                                                  #pragma: no cover
 def bad_request(err):
     return jsonify({'error': 'Your request doesn\'t contain JSON'}), 400
 
-@app.errorhandler(401)
+@app.errorhandler(401)                                                                                                                                                                                                  #pragma: no cover
 def unauthorized_access(err):
     return jsonify({'error': 'Unauthorized access'}), 401
 
-@app.errorhandler(403)
+@app.errorhandler(403)                                                                                                                                                                                                  #pragma: no cover
 def forbidden(err):
     return jsonify({'error': 'Forbidden!'}), 403
 
-@app.errorhandler(404)
+@app.errorhandler(404)                                                                                                                                                                                                  #pragma: no cover
 def not_found(err):
     return jsonify({'error': 'Not found'}), 404
 
-@app.errorhandler(409)
+@app.errorhandler(409)                                                                                                                                                                                                  #pragma: no cover
 def wrong_input(err):
     return jsonify({'error': 'Data already exists'}), 409
 
-@app.errorhandler(422)
+@app.errorhandler(422)                                                                                                                                                                                                  #pragma: no cover
 def already_exists(err):
     return jsonify({'error': 'Prices cannot be zero or negative'}), 422
 
-@app.errorhandler(500)
+@app.errorhandler(500)                                                                                                                                                                                                  #pragma: no cover
 def internal_server_error(err):
     return jsonify({'error' : 'Internal server error'}), 500
 
-cov = Coverage()
-cov.start()
+cov = Coverage()                    #pragma: no cover
+cov.start()                         #pragma: no cover
 
 # The create action of movie
 @app.route('/movie/add', methods=['POST'])
@@ -114,7 +114,7 @@ def get_movie_cast(movie_id):
         return jsonify({'error': 'No content'}), 204
     elif all_cast:
         return jsonify({'result': 'Success', 'cast': all_cast}), 200
-    return abort(all_cast)
+    return abort(all_cast)          #pragma: no cover
 
 
 # The delete action of movie
@@ -131,13 +131,14 @@ def delete_movie_by_id():
         return jsonify({'result': 'Success'}), 200
     elif delete_stat_code == 204:
         return jsonify({'error': 'No content'}), 204
-    return abort(delete_stat_code)
+    return abort(delete_stat_code)  #pragma: no cover
 
 
-@app.route('/endtest')
+@app.route('/endtest')              #pragma: no cover
 def end_test():
     cov.stop()
     cov.save()
+    print("Creating coverage file")
     try:
         cov.html_report()
         return jsonify({'result': 'Coverage report has been saved'}), 200
