@@ -46,7 +46,7 @@ def add_movie():
     rent = request.json["rent"]
     purchase = request.json["purchase"]
 
-    if rent <= 0 or purchase <= 0:
+    if float(rent) <= 0 or float(purchase) <= 0:
         abort(422)
 
     movie_details = get_movie_from_imdb(movie_id)
